@@ -13,6 +13,16 @@
 #pragma warning(disable : 4996) // warning about deprecated declaration
 #endif
 
+// <cadcorp>
+#ifdef _DEBUG
+#include <crtdbg.h>
+#define NANODBC_ASSERT(expr) _ASSERTE(expr)
+#else
+#define NANODBC_ASSERT(expr) (void)(expr)
+#define NANODBC_THROW_NO_SOURCE_LOCATION 1
+#endif
+// </cadcorp>
+
 #include <nanodbc/nanodbc.h>
 
 #include <algorithm>
