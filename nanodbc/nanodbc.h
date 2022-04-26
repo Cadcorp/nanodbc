@@ -1604,6 +1604,7 @@ private:
 // clang-format on
 
 class catalog;
+class variant_row_cached_result;
 
 /// \brief A resource for managing result sets from statement execution.
 ///
@@ -1958,6 +1959,9 @@ private:
     class result_impl;
     friend class nanodbc::statement::statement_impl;
     friend class nanodbc::catalog;
+#ifdef _MSC_VER
+    friend class nanodbc::variant_row_cached_result;
+#endif
 
 private:
     std::shared_ptr<result_impl> impl_;

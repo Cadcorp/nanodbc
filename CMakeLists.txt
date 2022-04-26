@@ -223,6 +223,11 @@ endif()
 
 add_library(nanodbc nanodbc/nanodbc.cpp nanodbc/nanodbc.h)
 
+target_sources(nanodbc
+  PRIVATE
+  $<$<CXX_COMPILER_ID:MSVC>:nanodbc/variant_row_cached_result.h>
+  $<$<CXX_COMPILER_ID:MSVC>:nanodbc/variant_row_cached_result.cpp>)
+
 target_link_libraries(nanodbc ${Boost_LIBRARIES} ${ODBC_LIBRARIES})
 
 target_include_directories(nanodbc PUBLIC
@@ -267,7 +272,11 @@ if(NOT NANODBC_DISABLE_INSTALL)
       ARCHIVE DESTINATION lib)
   endif()
   # Install public include headers
-  install(FILES nanodbc/nanodbc.h DESTINATION include/nanodbc)
+  install(
+    FILES
+      nanodbc/nanodbc.h
+      $<$<PLATFORM_ID:Windows>:nanodbc/variant_row_cached_result.h>
+    DESTINATION include/nanodbc)
   # Make project importable from the install directory
   ## Generate and install *-config.cmake exporting targets from install tree.
   if (WIN32 AND NOT MINGW)
